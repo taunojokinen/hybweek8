@@ -1,12 +1,15 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection,addDoc,serverTimestamp, query, onSnapshot } from "firebase/firestore";
+//import {auth} from './Constants.js';
+
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCXkPvmNPPFpG6tSh1WYntLOVVWq37ixac",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "chat-39fe2.firebaseapp.com",
   projectId: "chat-39fe2",
   storageBucket: "chat-39fe2.appspot.com",
@@ -18,5 +21,15 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const firestore = getFirestore();
+const MESSAGES = 'messages';
 
-export {firestore};
+export {
+  firestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+  MESSAGES,
+  query,
+  onSnapshot
+
+};
