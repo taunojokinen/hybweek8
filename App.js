@@ -4,13 +4,15 @@ import { useState, useEffect } from 'react';
 import {firestore, collection,addDoc, serverTimestamp, MESSAGES, query, onSnapshot} from './firebase/Config.js';
 import { convertFirebaseTimeStamps } from './helper/Functions.js';
 import Login from './components/Login.js';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { doc, deleteDoc } from "firebase/firestore";
 
 
 export default function App() {
 
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [logged, setLogged] = useState(false);
+  const [logged, setLogged] = useState(true);
 
 
   useEffect(() => {
@@ -40,13 +42,19 @@ export default function App() {
     setNewMessage('');
     console.log('saved message:', docRef.id);
   }
+  
+const handleDelete = async (id) => {
+  console.log('deleting');
+  deleteDoc(doc(firestore, MESSAGES, id));
+}
 
 if (logged) {
   return (
 <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Shopping list</Text>
       <View style={styles.form}>
       <TextInput
-        placeholder="Send message..."
+        placeholder="add new Item..."
         value={newMessage}
         onChangeText={text => setNewMessage(text)}
       />
@@ -58,6 +66,7 @@ if (logged) {
           <View key={message.id} style={styles.message}>
             <Text style= {styles.messageinfo}>{message.created}</Text>
             <Text>{message.text}</Text>
+            <Icon name="delete" size={30} color="#900" onPress={() =>  handleDelete(message.id)} />
           </View>
         ))
       }
@@ -70,6 +79,11 @@ if (logged) {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 28,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

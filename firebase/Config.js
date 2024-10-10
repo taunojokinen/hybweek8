@@ -25,7 +25,7 @@ initializeApp(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 
 const firestore = getFirestore();
-const MESSAGES = 'messages';
+const MESSAGES = 'shopping';
 
 export {
   firestore,
