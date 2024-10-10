@@ -3,12 +3,15 @@ import { Button, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } f
 import { useState, useEffect } from 'react';
 import {firestore, collection,addDoc, serverTimestamp, MESSAGES, query, onSnapshot} from './firebase/Config.js';
 import { convertFirebaseTimeStamps } from './helper/Functions.js';
+import Login from './components/Login.js';
 
 
 export default function App() {
 
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [logged, setLogged] = useState(false);
+
 
   useEffect(() => {
     const q = query(collection(firestore, MESSAGES));
@@ -38,7 +41,8 @@ export default function App() {
     console.log('saved message:', docRef.id);
   }
 
-return (
+if (logged) {
+  return (
 <SafeAreaView style={styles.container}>
       <View style={styles.form}>
       <TextInput
@@ -59,7 +63,10 @@ return (
       }
       </ScrollView>
     </SafeAreaView>
-)
+)} else {
+  console.log('not logged');
+  return <Login setLogged={setLogged}/>
+}
 }
 
 const styles = StyleSheet.create({
